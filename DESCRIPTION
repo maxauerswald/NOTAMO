@@ -1,0 +1,11 @@
+Package: Notamo
+Type: Package
+Title: NOrmal To Anything with prespecified MOments
+Version: 0.8.9
+Author: Max Auerswald and Morten Moshagen
+Maintainer: Max Auerswald <max.auerswald@uni-ulm.de>
+Description: An implementation of an algorithm to sample from non-normal multivariate distributions. The algorithm is an extension to NORTA (NORmal To Anything) and allows the manipulation of the multivariate distribution as well as the prespecification of skewness, kurtosis, and other standardized central moments.
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+Depends: moments, rootSolve, nloptr, NORTARA

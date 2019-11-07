@@ -20,7 +20,7 @@ The desired correlation matrix
 A list that contains matrices with the order and value of desired moments for each non-normal random variable. In each matrix, the first column contains the order of the moment, the second column contains the value.
 } \item{Lnn}{
 Logical. If TRUE, the correlated variables are non-normal and the independent variables are normal. If FALSE, vice versa. See \code{\link{Details}}.
-} \item{Lmaxcor} {
+} \item{Lmaxcor}{
 The maximum allowed correlation for the \eqn{L_i}{Li} variables. The default is .8 if the correlated variables are non-normal and .99 otherwise.
 } \item{acc}{
 An integer used to set up a vector of p-values to approximate the resulting distributions.

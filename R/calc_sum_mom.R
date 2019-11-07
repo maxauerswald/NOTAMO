@@ -1,5 +1,5 @@
 calc_sum_mom <- function(targetmom, Lnn, cw) {
-  # calculates the necessary standardized central moments of either L or E to conform with prespecified
+  # Calculates the necessary standardized central moments of either L or E to conform with prespecified
   # moments of X
   # Lnn=Latent variable is non-normal
   if (any(targetmom[,1]>=7)) {

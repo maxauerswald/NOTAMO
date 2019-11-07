@@ -1,22 +1,35 @@
-estimate_quantile_mix <- function(icdf_list,targetmom,acc=7,startval=NULL,alg="NLOPT_GN_CRS2_LM",maxeval=500){
-  #estimates a quantile mixture based on a set of functions to conform to prespecified moments
+estimate_quantile_mix <- function(icdf_list,targetmom,acc=7,startval=NULL,alg="NLOPT_GN_CRS2_LM",maxeval=500,standardized=TRUE){
+  # estimates a quantile mixture based on a set of functions to conform to prespecified moments
 
-  #prepare output
+  # prepare output
   out <- list()
   out$solution <- 0
   out$exp_moms <- matrix(0,nrow=dim(targetmom)[1],ncol=dim(targetmom)[2])
   out$exp_moms[,1] <- targetmom[,1]
-  presp_functions <- icdf_list
+  presp_functions <- icdf_list #save icdf-list without appending accuracy vector
 
-  #set accuracy vector
+  # set accuracy vector
   p <- seq(10^(-acc),1-10^(-acc),10^(-acc))
 
-  #append accuracy vector to every function
+  # append accuracy vector to every function and standardize icdfs if required
   for (i in 1:length(icdf_list)){
     icdf_list[[i]]$p <- p
+    if (standardized) {
+      args <- list()
+      for (j in 2:length(icdf_list[[i]])) {
+        args[[j-1]] <- icdf_list[[i]][[j]]
+        names(args)[j-1] <- names(icdf_list[[i]])[j]
+      }
+      presp_functions[[i]]$notamo.mean <- icdf_list[[i]]$notamo.mean <- mean(do.call(icdf_list[[i]][[1]],args))
+      presp_functions[[i]]$notamo.sd <- icdf_list[[i]]$notamo.sd <- sd(do.call(icdf_list[[i]][[1]],args))
+    } else {
+      presp_functions[[i]]$notamo.mean <- icdf_list[[i]]$notamo.mean <- 0
+      presp_functions[[i]]$notamo.sd <- icdf_list[[i]]$notamo.sd <- 1
+    }
+
   }
 
-  #handle starting values
+  # handle starting values
   if (is.null(startval)) {
     startval <- rep(1,length(icdf_list)-1)/length(icdf_list)
   } else { #else check if starting values have correct size
@@ -29,7 +42,7 @@ estimate_quantile_mix <- function(icdf_list,targetmom,acc=7,startval=NULL,alg="N
     }
   }
 
-  #choose if root finding algorithm or nonlinear optimization is appropriate
+  # choose if root finding algorithm or nonlinear optimization is appropriate
   if (length(icdf_list)==(dim(targetmom)[1]+1)) {
 
     #define function that gets solved in multiroot
@@ -56,7 +69,7 @@ estimate_quantile_mix <- function(icdf_list,targetmom,acc=7,startval=NULL,alg="N
     out$solution <- c(scaled_sol,1-sum(scaled_sol))
 
     if (out$ssd > 0.1) {
-      warning(paste('Sum of squared differences between prespecified and expected targetmom is ',out$ssd,
+      stop(paste('Sum of squared differences between prespecified and expected targetmom is ',out$ssd,
                     '. Try different functions or starting values.',sep=""))
     }
 

@@ -1,6 +1,15 @@
-estimate_sum <- function(icdf_list, targetcor, targetmom, Lnn=T, Lmaxcor=0.9, acc=7, verbose=T) {
+estimate_sum <- function(icdf_list, targetcor, targetmom, Lnn=T, Lmaxcor=NULL, acc=7, startval=NULL, verbose=T) {
   # Estimates apropriate correlation matrix, weights, and quantile mix from which gen_multivar_NOTAMO
   # can sample
+
+  # Default maximum allowed correlation in cor(L)
+  if (is.null(Lmaxcor)) {
+    if (Lnn) {
+      Lmaxcor <- 0.8
+    } else {
+      Lmaxcor <- 0.99
+    }
+  }
 
   # calc the necessary c to conform with correlation matrix
   sws <- set_sumweight(targetcor, Lmaxcor)
@@ -19,7 +28,12 @@ estimate_sum <- function(icdf_list, targetcor, targetmom, Lnn=T, Lmaxcor=0.9, ac
   # estimate quantile mix for every distribution
   out.distrfun <- list()
   for (iii in 1:dim(targetcor)[1]) {
-    out.distrfun[[iii]] <- estimate_quantile_mix(icdf_list[[iii]], adj.targetmom[[iii]], acc=acc)
+    if (is.null(startval)) {
+      out.distrfun[[iii]] <- estimate_quantile_mix(icdf_list[[iii]], adj.targetmom[[iii]], acc=acc)
+    } else {
+      out.distrfun[[iii]] <- estimate_quantile_mix(icdf_list[[iii]], adj.targetmom[[iii]], acc=acc, startval=startval[[iii]])
+    }
+
     if (verbose) {
       print(paste0("Estimated quantile mix for variable ",iii))
     }

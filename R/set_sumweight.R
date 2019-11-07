@@ -1,6 +1,6 @@
 set_sumweight <- function(cormat,maxcor=0.9) {
   # sets the weight c in X=sqrt(c)L+sqrt(1-c)E so that X can conform with prespecified correlation matrix cormat
-  # maxcor = maximum correlation allowed for L
+  # maxcor = maximum abs correlation allowed for cor(L)
   out <- list()
   diag(cormat) <- 0
   if (max(abs(cormat))<=(maxcor/2)) {

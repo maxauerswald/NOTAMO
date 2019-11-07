@@ -5,7 +5,7 @@ calc_std_mom <- function(data,moment) {
     } else {
       out <- kurtosis(data)
     }
-  } else { #if target moment is not skewness or kurtosis, compute standardized central moment
+  } else { # if target moment is not skewness or kurtosis, compute standardized central moment
     out <- moment(data,order=moment,central=TRUE)/(sd(data)^moment)
   }
   return(out)

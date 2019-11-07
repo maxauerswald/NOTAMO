@@ -14,10 +14,10 @@ gen_univar_NOTAMO(quantile_mix_out,N)
 \arguments{
   \item{quantile_mix_out}{
 output of \code{\link{estimate_quantile_mix}}
-}
+  }
   \item{N}{
 sample size
-}
+  }
 }
 \details{
 }

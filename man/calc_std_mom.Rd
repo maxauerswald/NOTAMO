@@ -4,7 +4,7 @@
 Calculate standardized central moments
 }
 \description{
-Calculates standardized sample central moments.
+Calculates standardized sample central moments of a sample.
 }
 \usage{
 calc_std_mom(data, moment)

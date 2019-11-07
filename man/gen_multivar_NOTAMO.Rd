@@ -26,7 +26,7 @@ This function samples from multivariate distributions prepared by the \code{\lin
 \references{
 }
 \author{
-Max Auerswald and Morten Moshagen
+\packageAuthor{Notamo}
 }
 \note{
 }

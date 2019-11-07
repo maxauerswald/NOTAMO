@@ -7,7 +7,7 @@ Estimate sum variables
 Estimates non-normal variables as the sum of normal and non-normal variables. The function \code{\link{gen_multivar_NOTAMO}} can be used to sample from the result of this function.
 }
 \usage{
-estimate_sum(icdf_list, targetcor, targetmom, Lnn=TRUE, Lmaxcor=0.9, acc=7, verbose=TRUE)
+estimate_sum(icdf_list, targetcor, targetmom, Lnn=TRUE, Lmaxcor=NULL, acc=7, startval=NULL, verbose=TRUE)
 }
 
 \arguments{
@@ -21,9 +21,11 @@ A list that contains matrices with the order and value of desired moments for ea
 } \item{Lnn}{
 Logical. If TRUE, the correlated variables are non-normal and the independent variables are normal. If FALSE, vice versa. See \code{\link{Details}}.
 } \item{Lmaxcor} {
-The maximum allowed correlation for the \eqn{L_i}{Li} variables.
+The maximum allowed correlation for the \eqn{L_i}{Li} variables. The default is .8 if the correlated variables are non-normal and .99 otherwise.
 } \item{acc}{
 An integer used to set up a vector of p-values to approximate the resulting distributions.
+} \item{startval}{
+A list of starting values for each random variable.
 } \item{verbose}{
 Logical. If TRUE, various additional outputs are printed during the estimation.
 }
@@ -88,7 +90,7 @@ res <- estimate_sum(icdf_list, targetcor, targetmom, Lnn=TRUE)
 
 # Sample from distribution
 
-y <- gen_multivar_NOTAMO(res, N=100000)
+y <- gen_multivar_NOTAMO(res, N=1000000)
 
 # Check results:
 

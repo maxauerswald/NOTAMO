@@ -35,7 +35,7 @@ The function estimates parameters \eqn{a \ge 0} of a quantile mixture distributi
 
 The \code{icdf_list} input is a list of lists. Every list contains one \code{function} that is an inverse CDF and optional additional parameters that are passed on to the respective inverse CDF (see \code{Example} 2).
 
-The function uses a non-linear root-finding algorithm if the number of prespecified moments is equal to the number provided inverse CDFs plus one (see \code{\link[rootSolve]{multiroot}}). If the number of prespecified moments is smaller than that, a non-linear optimization function is used instead (see \code{\link[nloptr]{nloptr}}). In general, the non-linear root finding is faster, more accurate, and thus recommended.
+The function uses a non-linear root-finding algorithm if the number of prespecified moments is equal to the number provided inverse CDFs plus one (see \code{\link[rootSolve]{multiroot}}). If the number of prespecified moments is smaller than that, a non-linear optimization function is used instead (see \code{\link[nloptr]{nloptr}}). In general, the non-linear root finding is recommended because it is both faster, more accurate, and thus recommended.
 }
 \value{
 
@@ -77,11 +77,11 @@ moms[2,] <- c(4,10)  #desired kurtosis is 10
 # Estimate parameters:
 res1 <- estimate_quantile_mix(icdf_list,moms)
 
-# Generate univariate sample from distribution with given moments and N=10000:
-y1 <- gen_univar_NOTAMO(res1,10000)
+# Generate univariate sample from distribution with given moments and N=100000:
+y1 <- gen_univar_NOTAMO(res1,100000)
 
 # Calculate kurtosis of random variable
-calc_std_mom(y1,4)
+kurtosis(y1)
 
 ### Example 2: Non-linear optimization (number of CDFs > number of prespecified moments + 1):
 
@@ -98,10 +98,10 @@ icdf_list2 <- list(
 # Estimate parameters:
 res2 <- estimate_quantile_mix(icdf_list2,moms)
 
-# Generate univariate sample from distribution with given moments and N=10000:
-y2 <- gen_univar_NOTAMO(res2,10000)
+# Generate univariate sample from distribution with given moments and N=100000:
+y2 <- gen_univar_NOTAMO(res2,100000)
 
 # The resulting distribution is different from the first example, despite having the same skewness and kurtosis:
-calc_std_mom(y2,4)
+kurtosis(y2)
 }
 
